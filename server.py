@@ -2,6 +2,7 @@ import pdb
 import BaseHTTPServer
 
 import urlparse
+import parser
 
 HOST_NAME = 'localhost'
 PORT = 8000
@@ -24,7 +25,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         s.send_response(200)
         s.send_header("Content-type", "text/html")
 
-        # parse parameters
+        # parse parameters - Done
         parameters = parse_parameters(s.path)
 
         # fetch web pages for information
@@ -54,36 +55,31 @@ def parse_parameters(url):
     return {'subjects':['WSN', 'sensor networks'] }
 
 def create_new_page(information):
-    return '<html><head></head><body>This is the new page</body></html>'
+    print "Creating a new page with information " + str(information)
+    return '<html><head></head><body>This is the new page. We have seen %d pages of year %d </body></html>' % (information['number_pages'], information['average_year'])
 
 
 def fetch_information(parameters):
     """Receives the parameters, fetches the scholar web pages and returns the stats
 
-    :parameters: @todo
-    :returns: @todo
+    :parameters: dictionary with parameters containing
+                'subjects'
+                ...
+
+    :returns: dictionary of information
 
     """
     # Creates the url for google scholar
+    print "These are my parameters " + str(parameters)
+
     query = ""
     for subject in parameters['subjects']:
         query += subject
     
     # Performs the http get
-    page = crawl_google_schoolar()
+    information = parser.crawl_google_schoolar(query)
 
-    # Parse the retrieved website
-    information = parse_google_scholar_page(page)
-
-def crawl_google_schoolar():
-    # ??? ver o que esta no ACM crawler
-    page = '<html><head> here be pages </head></html>' # This is what I crawled
-
-    return page
-
-def parse_google_scholar_page(page):
-    #Do regular expression for fetching number pages
-    return {'number_pages': 5, 'average_year': 2007}
+    return information
 
 
 if __name__ == '__main__':
