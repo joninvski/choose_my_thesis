@@ -24,7 +24,7 @@ def crawl_google_schoolar(query):
     print "Now going to crawl google schoolar"
 
     parser = GoogleScholarParser()
-    url_string = 'http://scholar.google.pt/scholar?hl=en&q='+query+'&btnG=&as_sdt=1%2C5&as_sdtp='
+    url_string = 'http://scholar.google.pt/scholar?as_ylo=2013&hl=en&q='+query+'&btnG=&as_sdt=1%2C5&as_sdtp='
     # url_string = 'http://localhost:8001/page.html'
 
     import httplib
