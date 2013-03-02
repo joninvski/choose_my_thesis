@@ -24,19 +24,19 @@ def crawl_google_schoolar(query):
     print "Now going to crawl google schoolar"
 
     parser = GoogleScholarParser()
-    url_string = 'http://scholar.google.pt/scholar?hl=en&q=teste&btnG=&as_sdt=1%2C5&as_sdtp='
+    url_string = 'http://scholar.google.pt/scholar?hl=en&q='+query+'&btnG=&as_sdt=1%2C5&as_sdtp='
     # url_string = 'http://localhost:8001/page.html'
 
-    import urllib
-    web_site = urllib.urlopen(url_string)
-    parser.feed(web_site.read())
+    import httplib
+    httplib.HTTPConnection.debuglevel = 1                             
+
+    import urllib2
+    request = urllib2.Request(url_string) 
+    opener = urllib2.build_opener()                                   
+    request.add_header('User-Agent', 'OpenAnything/1.0 +http://diveintopython.org/')
+    feeddata = opener.open(request).read()                            
+
+    parser.feed(feeddata)
 
     return {'number_pages': parser.counter, 'average_year': 2007}
 
-def parse_conference(conference_url):
-    parser = ConferenceListParser()
-
-    import urllib
-    print conference_url
-    web_site = urllib.urlopen(conference_url['link'])
-    parser.feed(web_site.read())

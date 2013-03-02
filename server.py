@@ -76,6 +76,8 @@ def fetch_information(parameters):
     for subject in parameters['subjects']:
         query += subject
     
+    query = query.replace(' ', '+')
+
     # Performs the http get
     information = parser.crawl_google_schoolar(query)
 
